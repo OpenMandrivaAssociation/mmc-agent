@@ -1,5 +1,3 @@
-%define snap r201
-
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
 
@@ -9,12 +7,12 @@
 
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
-Version:	2.0.1
-Release:	%mkrel 0.%{snap}.6
+Version:	2.1.0
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
-URL:		http://lds.linbox.org/
-Source0:	%{name}-%{version}-%{snap}.tar.gz
+URL:		http://mds.mandriva.org/
+Source0:	%{name}-%{version}.tar.gz
 Source1:	mmc-agent.init
 Patch0:		mmc-agent-Makefile_fix.diff
 Patch1:		mmc-agent_mdv_conf.diff
