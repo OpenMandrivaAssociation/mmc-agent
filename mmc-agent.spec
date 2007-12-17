@@ -23,7 +23,6 @@ Requires:	python-mmc-base
 Requires:	python-OpenSSL
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
-Buildroot:	%{_tmppath}/%{name}-buildroot
 
 %description
 XMLRPC server of the MMC API.
