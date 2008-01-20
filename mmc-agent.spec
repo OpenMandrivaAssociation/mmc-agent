@@ -23,7 +23,7 @@ Requires:	python-mmc-base
 Requires:	python-OpenSSL
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
-Buildroot:	%{_tmppath}/%{name}-buildroot
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 XMLRPC server of the MMC API.
@@ -42,7 +42,6 @@ Requires:	python-twisted-names
 Requires:	python-twisted-runner
 Requires:	python-twisted-web
 Requires:	python-twisted-words
-Requires:	python-zope-interface
 
 %description -n	python-mmc-base
 Contains the base infrastructure for all MMC plugins:
@@ -112,6 +111,7 @@ Requires:	mkisofs
 %description -n	python-mmc-plugins-tools
 Contains common tools needed by some plugins of mmc-agent package.
 
+
 %prep
 
 %setup -q -n %{name}-%{version}
@@ -143,9 +143,9 @@ rm -rf %{buildroot}%{_prefix}/lib*/python*
 python setup.py install --root=%{buildroot} --install-purelib=%{py_platsitedir}
 
 
-install -d %{buildroot}/var/log/mmc
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
+install -d %{buildroot}/var/log/mmc
 
 install -m0755 mmc-agent.init %{buildroot}%{_initrddir}/mmc-agent
 
@@ -157,7 +157,7 @@ cat > %{buildroot}%{_sysconfdir}/logrotate.d/mmc-agent << EOF
     compress
     missingok
     postrotate
-        /bin/kill -HUP `cat /var/run/mmc-agent.pid 2> /dev/null` 2> /dev/null || true
+	%{_initrddir}/mmc-agent condrestart >/dev/null 2>&1 || :
     endscript
 }
 EOF
@@ -181,9 +181,9 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_initrddir}/mmc-agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent/keys
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
-%attr(0600,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/cacert.pem
-%attr(0600,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/privkey.pem
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/cacert.pem
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/privkey.pem
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/mmc-agent
 %attr(0755,root,root) %{_sbindir}/mmc-agent
 %{py_platsitedir}/mmc/agent.py*
@@ -195,7 +195,7 @@ rm -rf %{buildroot}
 
 %files -n python-mmc-base
 %defattr(-,root,root,0755)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/base.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/base.ini
 %{py_platsitedir}/mmc/support
 %{py_platsitedir}/mmc/__init__.py*
 %{py_platsitedir}/mmc/plugins/__init__.py*
@@ -203,12 +203,12 @@ rm -rf %{buildroot}
 
 %files -n python-mmc-mail
 %defattr(-,root,root,0755)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/mail.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/mail.ini
 %{py_platsitedir}/mmc/plugins/mail
 
 %files -n python-mmc-network
 %defattr(-,root,root,0755)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/network.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/network.ini
 %{py_platsitedir}/mmc/plugins/network
 
 %files -n python-mmc-plugins-tools
@@ -218,12 +218,11 @@ rm -rf %{buildroot}
 
 %files -n python-mmc-proxy
 %defattr(-,root,root,0755)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/proxy.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/proxy.ini
 %{py_platsitedir}/mmc/plugins/proxy
-#%{py_platsitedir}/mmc/proxy.py* <- where did it go?
 
 %files -n python-mmc-samba
 %defattr(-,root,root,0755)
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/samba.ini
+%attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/samba.ini
 %{py_platsitedir}/mmc/plugins/samba
 %{_libdir}/mmc/add_machine_script
