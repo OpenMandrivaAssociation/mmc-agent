@@ -8,7 +8,7 @@
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
 Version:	2.2.0
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		System/Servers
 URL:		http://mds.mandriva.org/
@@ -32,7 +32,6 @@ XMLRPC server of the MMC API.
 Summary:	Mandriva Management Console base plugin
 Group:		System/Servers
 Requires:	python-ldap
-Requires:	python-mmc-plugins-tools
 Requires:	python-twisted
 Requires:	python-twisted-conch
 Requires:	python-twisted-core
@@ -42,6 +41,8 @@ Requires:	python-twisted-names
 Requires:	python-twisted-runner
 Requires:	python-twisted-web
 Requires:	python-twisted-words
+Provides:	python-mmc-plugins-tools = %{version}-%{release}
+Obsoletes:	python-mmc-plugins-tools
 
 %description -n	python-mmc-base
 Contains the base infrastructure for all MMC plugins:
@@ -102,15 +103,6 @@ Requires:	python-mmc-base
 DNS/DHCP management plugin for the MMC.
 
 This plugin requires a LDAP-patched version of ISC DHCPD and BIND9.
-
-%package -n	python-mmc-plugins-tools
-Summary:	Required tools for some MMC plugins
-Group:		System/Servers
-Requires:	mkisofs
-
-%description -n	python-mmc-plugins-tools
-Contains common tools needed by some plugins of mmc-agent package.
-
 
 %prep
 
@@ -196,6 +188,8 @@ rm -rf %{buildroot}
 %files -n python-mmc-base
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/base.ini
+%{_libdir}/mmc/backup-tools/cdlist
+%{_libdir}/mmc/backup-tools/backup.sh
 %{py_platsitedir}/mmc/support
 %{py_platsitedir}/mmc/__init__.py*
 %{py_platsitedir}/mmc/plugins/__init__.py*
@@ -210,11 +204,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/network.ini
 %{py_platsitedir}/mmc/plugins/network
-
-%files -n python-mmc-plugins-tools
-%defattr(-,root,root,0755)
-%{_libdir}/mmc/backup-tools/cdlist
-%{_libdir}/mmc/backup-tools/backup.sh
 
 %files -n python-mmc-proxy
 %defattr(-,root,root,0755)
