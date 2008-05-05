@@ -7,7 +7,7 @@
 
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
-Version:	2.3.0
+Version:	2.3.1
 Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
@@ -19,7 +19,7 @@ Patch1:		mmc-agent_mdv_conf.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 Requires:	python-OpenSSL
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -55,7 +55,7 @@ Group:		System/Servers
 #Requires:	python-pylibacl
 Requires:	acl
 Requires:	pylibacl
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 Requires:	samba-server
 Requires:	samba-vscan-clamav
 
@@ -67,7 +67,7 @@ Summary:	Mandriva Management Console base plugin
 Group:		System/Servers
 Requires:	postfix
 Requires:	postfix-ldap
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 
 %description -n	python-mmc-mail
 Mail account management plugin for the MMC.
@@ -75,7 +75,7 @@ Mail account management plugin for the MMC.
 %package -n	python-mmc-ox
 Summary:	Mandriva Management Console Open-Xchange plugin
 Group:		System/Servers
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 Requires:	python-psycopg
 
 %description -n	python-mmc-ox
@@ -85,7 +85,7 @@ This plugin needs a working installation of Open-Xchange to be functional.
 %package -n	python-mmc-proxy
 Summary:	Mandriva Management Console proxy plugin
 Group:		System/Servers
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 Requires:	squid
 Requires:	squidGuard
 
@@ -97,7 +97,7 @@ Summary:	Mandriva Management Console network plugin
 Group:		System/Servers
 Requires:	bind
 Requires:	dhcp-server
-Requires:	python-mmc-base >= 2.3.0
+Requires:	python-mmc-base >= 2.3.1
 
 %description -n	python-mmc-network
 DNS/DHCP management plugin for the MMC.
@@ -188,12 +188,14 @@ rm -rf %{buildroot}
 %defattr(-,root,root,0755)
 %doc contrib
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/base.ini
+%{_sbindir}/mds-report
 %{_libdir}/mmc/backup-tools/cdlist
 %{_libdir}/mmc/backup-tools/backup.sh
 %{py_platsitedir}/mmc/support
 %{py_platsitedir}/mmc/__init__.py*
 %{py_platsitedir}/mmc/plugins/__init__.py*
 %{py_platsitedir}/mmc/plugins/base
+%{py_platsitedir}/mmc/client.py*
 %{_datadir}/openldap/schema/mmc.schema
 
 %files -n python-mmc-mail
@@ -216,3 +218,7 @@ rm -rf %{buildroot}
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/samba.ini
 %{py_platsitedir}/mmc/plugins/samba
 %{_libdir}/mmc/add_machine_script
+%{_libdir}/mmc/add_change_share_script
+%{_libdir}/mmc/add_printer_script
+%{_libdir}/mmc/delete_printer_script
+%{_libdir}/mmc/delete_share_script
