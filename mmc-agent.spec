@@ -16,6 +16,7 @@ Source0:	%{name}-%{version}.tar.gz
 Source1:	mmc-agent.init
 Patch0:		mmc-agent-Makefile_fix.diff
 Patch1:		mmc-agent_mdv_conf.diff
+Patch2:		mmc-agent-pulse2-1.1.0_fixes.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
@@ -72,16 +73,6 @@ Requires:	python-mmc-base >= 2.3.1
 %description -n	python-mmc-mail
 Mail account management plugin for the MMC.
 
-%package -n	python-mmc-ox
-Summary:	Mandriva Management Console Open-Xchange plugin
-Group:		System/Servers
-Requires:	python-mmc-base >= 2.3.1
-Requires:	python-psycopg
-
-%description -n	python-mmc-ox
-Open-Xchange management plugin for the MMC.
-This plugin needs a working installation of Open-Xchange to be functional.
-
 %package -n	python-mmc-proxy
 Summary:	Mandriva Management Console proxy plugin
 Group:		System/Servers
@@ -113,6 +104,7 @@ done
 
 %patch0 -p0
 %patch1 -p1
+%patch2 -p1
 
 cp %{SOURCE1} mmc-agent.init
 
