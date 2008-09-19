@@ -8,7 +8,7 @@
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
 Version:	2.3.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		System/Servers
 URL:		http://mds.mandriva.org/
@@ -16,7 +16,6 @@ Source0:	%{name}-%{version}.tar.gz
 Source1:	mmc-agent.init
 Patch0:		mmc-agent-Makefile_fix.diff
 Patch1:		mmc-agent_mdv_conf.diff
-Patch2:		mmc-agent-pulse2-1.1.0_fixes.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
@@ -104,7 +103,6 @@ done
 
 %patch0 -p0
 %patch1 -p1
-%patch2 -p1
 
 cp %{SOURCE1} mmc-agent.init
 
