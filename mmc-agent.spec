@@ -57,7 +57,6 @@ Requires:	acl
 Requires:	pylibacl
 Requires:	python-mmc-base >= 2.3.1
 Requires:	samba-server
-Requires:	samba-vscan-clamav
 
 %description -n	python-mmc-samba
 SAMBA management plugin for the MMC.
@@ -85,8 +84,6 @@ Squidguard/Squid management plugin for the MMC.
 %package -n	python-mmc-network
 Summary:	Mandriva Management Console network plugin
 Group:		System/Servers
-Requires:	bind
-Requires:	dhcp-server
 Requires:	python-mmc-base >= 2.3.1
 
 %description -n	python-mmc-network
