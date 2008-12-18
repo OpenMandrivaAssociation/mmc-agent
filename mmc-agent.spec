@@ -19,7 +19,7 @@ Patch1:		mmc-agent_mdv_conf.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
-Requires:	python-mmc-base >= 2.3.1
+Requires:	python-mmc-base >= 2.3.2
 Requires:	python-OpenSSL
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
@@ -55,7 +55,7 @@ Group:		System/Servers
 #Requires:	python-pylibacl
 Requires:	acl
 Requires:	pylibacl
-Requires:	python-mmc-base >= 2.3.1
+Requires:	python-mmc-base >= 2.3.2
 Requires:	samba-server
 
 %description -n	python-mmc-samba
@@ -66,7 +66,7 @@ Summary:	Mandriva Management Console base plugin
 Group:		System/Servers
 Requires:	postfix
 Requires:	postfix-ldap
-Requires:	python-mmc-base >= 2.3.1
+Requires:	python-mmc-base >= 2.3.2
 
 %description -n	python-mmc-mail
 Mail account management plugin for the MMC.
@@ -74,7 +74,7 @@ Mail account management plugin for the MMC.
 %package -n	python-mmc-proxy
 Summary:	Mandriva Management Console proxy plugin
 Group:		System/Servers
-Requires:	python-mmc-base >= 2.3.1
+Requires:	python-mmc-base >= 2.3.2
 Requires:	squid
 Requires:	squidGuard
 
@@ -84,7 +84,7 @@ Squidguard/Squid management plugin for the MMC.
 %package -n	python-mmc-network
 Summary:	Mandriva Management Console network plugin
 Group:		System/Servers
-Requires:	python-mmc-base >= 2.3.1
+Requires:	python-mmc-base >= 2.3.2
 
 %description -n	python-mmc-network
 DNS/DHCP management plugin for the MMC.
