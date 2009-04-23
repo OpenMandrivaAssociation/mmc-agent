@@ -16,7 +16,7 @@ Source0:	%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Patch0:		%{name}-Makefile_fix.diff
 Patch1:		%{name}_mdv_conf.diff
-Patch2:		%{name}-pugins-base.diff
+Patch2:		%{name}-plugins-base.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
