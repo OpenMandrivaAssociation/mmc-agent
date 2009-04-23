@@ -13,9 +13,10 @@ License:	GPL
 Group:		System/Servers
 URL:		http://mds.mandriva.org/
 Source0:	%{name}-%{version}.tar.gz
-Source1:	mmc-agent.init
-Patch0:		mmc-agent-Makefile_fix.diff
-Patch1:		mmc-agent_mdv_conf.diff
+Source1:	%{name}.init
+Patch0:		%{name}-Makefile_fix.diff
+Patch1:		%{name}_mdv_conf.diff
+Patch2:		%{name}-pugins-base.diff
 BuildRequires:	python-devel
 #Requires:	python-pyopenssl
 Requires:	pycrypto
@@ -102,7 +103,7 @@ done
 %patch0 -p0
 %patch1 -p1
 
-cp %{SOURCE1} mmc-agent.init
+cp %{SOURCE1} %{name}.init
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib/|%{_libdir}/|g" mmc/plugins/samba/__init__.py conf/plugins/samba.ini conf/plugins/base.ini
@@ -127,11 +128,11 @@ install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -d %{buildroot}/var/log/mmc
 
-install -m0755 mmc-agent.init %{buildroot}%{_initrddir}/mmc-agent
+install -m0755 %{name}.init %{buildroot}%{_initrddir}/%{name}
 
 # install log rotation stuff
-cat > %{buildroot}%{_sysconfdir}/logrotate.d/mmc-agent << EOF
-/var/log/mmc/mmc-agent.log /var/log/dhcp-ldap-startup.log /var/log/mmc/mmc-fileprefix.log {
+cat > %{buildroot}%{_sysconfdir}/logrotate.d/%{name} << EOF
+/var/log/mmc/%{name}.log /var/log/dhcp-ldap-startup.log /var/log/mmc/mmc-fileprefix.log {
     create 644 root root
     monthly
     compress
@@ -147,10 +148,10 @@ install -d %{buildroot}%{_datadir}/openldap/schema
 install -m0644 contrib/ldap/mmc.schema %{buildroot}%{_datadir}/openldap/schema/
 
 %post
-%_post_service mmc-agent
+%_post_service %{name}
 
 %preun
-%_preun_service mmc-agent
+%_preun_service %{name}
 
 %clean
 rm -rf %{buildroot}
@@ -158,13 +159,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,0755)
 %doc COPYING Changelog
-%attr(0755,root,root) %{_initrddir}/mmc-agent
+%attr(0755,root,root) %{_initrddir}/%{name}
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent/keys
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/cacert.pem
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/privkey.pem
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/mmc-agent
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(0755,root,root) %{_sbindir}/mmc-agent
 %{py_platsitedir}/mmc/agent.py*
 %if %mdkversion >= 200700
