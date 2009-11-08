@@ -8,7 +8,7 @@
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
 Version:	2.3.2
-Release:	%mkrel 8
+Release:	%mkrel 9
 License:	GPL
 Group:		System/Servers
 URL:		http://mds.mandriva.org/
@@ -102,6 +102,7 @@ done
 
 %patch0 -p0
 %patch1 -p1
+%patch2 -p0
 
 cp %{SOURCE1} %{name}.init
 
