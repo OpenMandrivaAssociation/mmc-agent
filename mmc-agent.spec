@@ -2,13 +2,13 @@
 %define debug_package          %{nil}
 
 %if %mdkversion < 200610
-%define py_platsitedir %{_libdir}/python%{pyver}/site-packages/
+%define py_puresitedir %{_prefix}/lib/python%{pyver}/site-packages/
 %endif
 
 Summary:	Mandriva Management Console Agent
 Name:		mmc-agent
 Version:	2.3.2
-Release:	%mkrel 9
+Release:	%mkrel 10
 License:	GPL
 Group:		System/Servers
 URL:		http://mds.mandriva.org/
@@ -25,6 +25,7 @@ Requires:	python-OpenSSL
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildArch: 	noarch
 
 %description
 XMLRPC server of the MMC API.
@@ -104,10 +105,7 @@ done
 %patch1 -p1
 %patch2 -p0
 
-cp %{SOURCE1} %{name}.init
-
-# lib64 fixes
-perl -pi -e "s|/usr/lib/|%{_libdir}/|g" mmc/plugins/samba/__init__.py conf/plugins/samba.ini conf/plugins/base.ini
+cp %{SOURCE1} mmc-agent.init
 
 # mdv default fixes
 for i in `find -type f`; do
@@ -119,21 +117,20 @@ done
 %install
 rm -rf %{buildroot}
 
-%makeinstall_std LIBDIR=%{_libdir}/mmc
+%makeinstall_std LIBDIR=%{_prefix}/lib/mmc
 
 rm -rf %{buildroot}%{_prefix}/lib*/python*
-python setup.py install --root=%{buildroot} --install-purelib=%{py_platsitedir}
-
+python setup.py install --root=%{buildroot} --install-purelib=%{py_puresitedir}
 
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -d %{buildroot}/var/log/mmc
 
-install -m0755 %{name}.init %{buildroot}%{_initrddir}/%{name}
+install -m0755 mmc-agent.init %{buildroot}%{_initrddir}/mmc-agent
 
 # install log rotation stuff
-cat > %{buildroot}%{_sysconfdir}/logrotate.d/%{name} << EOF
-/var/log/mmc/%{name}.log /var/log/dhcp-ldap-startup.log /var/log/mmc/mmc-fileprefix.log {
+cat > %{buildroot}%{_sysconfdir}/logrotate.d/mmc-agent << EOF
+/var/log/mmc/mmc-agent.log /var/log/dhcp-ldap-startup.log /var/log/mmc/mmc-fileprefix.log {
     create 644 root root
     monthly
     compress
@@ -149,10 +146,10 @@ install -d %{buildroot}%{_datadir}/openldap/schema
 install -m0644 contrib/ldap/mmc.schema %{buildroot}%{_datadir}/openldap/schema/
 
 %post
-%_post_service %{name}
+%_post_service mmc-agent
 
 %preun
-%_preun_service %{name}
+%_preun_service mmc-agent
 
 %clean
 rm -rf %{buildroot}
@@ -160,17 +157,17 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,0755)
 %doc COPYING Changelog
-%attr(0755,root,root) %{_initrddir}/%{name}
+%attr(0755,root,root) %{_initrddir}/mmc-agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent/keys
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/cacert.pem
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/privkey.pem
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/logrotate.d/mmc-agent
 %attr(0755,root,root) %{_sbindir}/mmc-agent
-%{py_platsitedir}/mmc/agent.py*
+%{py_puresitedir}/mmc/agent.py*
 %if %mdkversion >= 200700
-%{py_platsitedir}/*.egg-info
+%{py_puresitedir}/*.egg-info
 %endif
 %attr(0755,root,root) %dir /var/log/mmc
 
@@ -179,36 +176,36 @@ rm -rf %{buildroot}
 %doc contrib
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/base.ini
 %{_sbindir}/mds-report
-%{_libdir}/mmc/backup-tools/cdlist
-%{_libdir}/mmc/backup-tools/backup.sh
-%{py_platsitedir}/mmc/support
-%{py_platsitedir}/mmc/__init__.py*
-%{py_platsitedir}/mmc/plugins/__init__.py*
-%{py_platsitedir}/mmc/plugins/base
-%{py_platsitedir}/mmc/client.py*
+%{_prefix}/lib/mmc/backup-tools/cdlist
+%{_prefix}/lib/mmc/backup-tools/backup.sh
+%{py_puresitedir}/mmc/support
+%{py_puresitedir}/mmc/__init__.py*
+%{py_puresitedir}/mmc/plugins/__init__.py*
+%{py_puresitedir}/mmc/plugins/base
+%{py_puresitedir}/mmc/client.py*
 %{_datadir}/openldap/schema/mmc.schema
 
 %files -n python-mmc-mail
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/mail.ini
-%{py_platsitedir}/mmc/plugins/mail
+%{py_puresitedir}/mmc/plugins/mail
 
 %files -n python-mmc-network
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/network.ini
-%{py_platsitedir}/mmc/plugins/network
+%{py_puresitedir}/mmc/plugins/network
 
 %files -n python-mmc-proxy
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/proxy.ini
-%{py_platsitedir}/mmc/plugins/proxy
+%{py_puresitedir}/mmc/plugins/proxy
 
 %files -n python-mmc-samba
 %defattr(-,root,root,0755)
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/plugins/samba.ini
-%{py_platsitedir}/mmc/plugins/samba
-%{_libdir}/mmc/add_machine_script
-%{_libdir}/mmc/add_change_share_script
-%{_libdir}/mmc/add_printer_script
-%{_libdir}/mmc/delete_printer_script
-%{_libdir}/mmc/delete_share_script
+%{py_puresitedir}/mmc/plugins/samba
+%{_prefix}/lib/mmc/add_machine_script
+%{_prefix}/lib/mmc/add_change_share_script
+%{_prefix}/lib/mmc/add_printer_script
+%{_prefix}/lib/mmc/delete_printer_script
+%{_prefix}/lib/mmc/delete_share_script
