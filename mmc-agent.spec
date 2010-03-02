@@ -1,6 +1,3 @@
-%define _enable_debug_packages %{nil}
-%define debug_package          %{nil}
-
 %if %mdkversion < 200610
 %define py_puresitedir %{_prefix}/lib/python%{pyver}/site-packages/
 %endif
