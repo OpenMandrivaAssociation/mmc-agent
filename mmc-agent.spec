@@ -159,8 +159,8 @@ rm -rf %{buildroot}
 %doc COPYING Changelog
 %attr(0755,root,root) %{_initrddir}/mmc-agent
 %dir %{_sysconfdir}/mmc
-%attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent
-%attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent/keys
+%dir %{_sysconfdir}/mmc/agent
+%dir %{_sysconfdir}/mmc/agent/keys
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/cacert.pem
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/keys/privkey.pem
@@ -170,7 +170,7 @@ rm -rf %{buildroot}
 %if %mdkversion >= 200700
 %{py_puresitedir}/*.egg-info
 %endif
-%attr(0755,root,root) %dir /var/log/mmc
+%dir /var/log/mmc
 
 %files -n python-mmc-base
 %defattr(-,root,root,0755)
