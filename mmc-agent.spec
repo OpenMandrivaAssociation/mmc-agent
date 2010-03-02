@@ -158,6 +158,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,0755)
 %doc COPYING Changelog
 %attr(0755,root,root) %{_initrddir}/mmc-agent
+%dir %{_sysconfdir}/mmc
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent
 %attr(0755,root,root) %dir %{_sysconfdir}/mmc/agent/keys
 %attr(0640,root,root) %config(noreplace) %{_sysconfdir}/mmc/agent/config.ini
