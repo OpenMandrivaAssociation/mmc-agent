@@ -1,0 +1,21 @@
+--- mmc.old/plugins/base/__init__.py	2009-03-31 09:26:49.000000000 -0400
++++ mmc/plugins/base/__init__.py	2009-03-31 09:42:32.000000000 -0400
+@@ -689,6 +689,8 @@
+                     dn = result_set[0][0][0]
+                     entries = result_set[0][0][1]
+                     if password:
++                        if isinstance(password, xmlrpclib.Binary):
++		            password = str(password)
+                         # Put user password in clear text in ldif
+                         entries["userPassword"] = [password]
+                     writer = ldif.LDIFWriter(fob)
+@@ -882,7 +884,7 @@
+                      'sn':lastN,
+                      'givenName':firstN,
+                      'homeDirectory' : homeDir,
+-                     'shadowExpire':'0', # Password never expire
++                     'shadowExpire':'-1', # Password never expire
+                      'shadowInactive':'-1',
+                      'shadowWarning':'7',
+                      'shadowMin':'-1',
+
