@@ -8,7 +8,7 @@ Version:	2.3.2
 Release:	13
 License:	GPL
 Group:		System/Servers
-URL:		http://mds.mandriva.org/
+URL:		https://mds.mandriva.org/
 Source0:	%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Patch0:		%{name}-Makefile_fix.diff
